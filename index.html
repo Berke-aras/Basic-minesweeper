@@ -3,79 +3,138 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mine Sweeper: Basic - Privacy & Support</title>
+  <title>Mine Sweeper: Basic – Privacy & Support</title>
   <style>
     :root {
-      --bg: #f6f8f4;
-      --card: #ffffff;
-      --text: #1d2a1f;
-      --muted: #4b5b4f;
-      --accent: #3f7f2f;
-      --border: #d7e2d3;
+      --bg: #0d1f0e;
+      --surface: #142716;
+      --card: #1a3020;
+      --card-hover: #1f3a26;
+      --text: #e8f5e4;
+      --muted: #8dac8a;
+      --accent: #4caf50;
+      --accent2: #81c784;
+      --border: #2a4a2e;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.7;
+      min-height: 100vh;
     }
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 20px;
+    header {
+      background: linear-gradient(135deg, #0a1a0b 0%, #1b3a1e 50%, #0d2410 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 20px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 14px;
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(76,175,80,.18) 0%, transparent 70%);
+      pointer-events: none;
     }
-    h1 { margin: 0 0 8px; font-size: 28px; }
-    h2 { margin: 0 0 8px; font-size: 22px; color: var(--accent); }
-    p { margin: 0 0 10px; color: var(--muted); }
-    .small { font-size: 14px; color: #5f6f63; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .anchors a {
-      display: inline-block;
-      margin-right: 12px;
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: #f7fbf6;
+    .header-icon {
+      font-size: 64px;
+      display: block;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 18px rgba(76,175,80,.5));
+      animation: pulse 3s ease-in-out infinite;
     }
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 18px rgba(76,175,80,.5)); }
+      50%       { filter: drop-shadow(0 0 30px rgba(76,175,80,.85)); }
+    }
+    header h1 { font-size: clamp(26px, 5vw, 40px); font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+    header h1 span { color: var(--accent); }
+    header p { margin-top: 8px; font-size: 15px; color: var(--muted); }
+    .badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; }
+    .badge-green  { background: rgba(76,175,80,.15);  color: var(--accent2); border: 1px solid rgba(76,175,80,.3); }
+    .badge-orange { background: rgba(255,112,67,.12); color: #ffab91;        border: 1px solid rgba(255,112,67,.3); }
+    .badge-blue   { background: rgba(66,165,245,.12); color: #90caf9;        border: 1px solid rgba(66,165,245,.3); }
+    nav { display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap; }
+    nav a { display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); color: var(--accent2); font-size: 14px; font-weight: 600; text-decoration: none; transition: background .2s, border-color .2s, transform .15s; }
+    nav a:hover { background: var(--card-hover); border-color: var(--accent); transform: translateY(-2px); }
+    main { max-width: 780px; margin: 0 auto; padding: 0 20px 60px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 18px; transition: border-color .2s, box-shadow .2s; }
+    .card:hover { border-color: rgba(76,175,80,.45); box-shadow: 0 4px 24px rgba(0,0,0,.35); }
+    .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .icon-green  { background: rgba(76,175,80,.15); }
+    .icon-orange { background: rgba(255,112,67,.12); }
+    h2 { font-size: 20px; font-weight: 700; color: #fff; }
+    .section-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); font-weight: 600; }
+    .privacy-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .privacy-list li { display: flex; align-items: flex-start; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 14px; color: var(--muted); }
+    .privacy-list li .pi { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .privacy-list li strong { display: block; color: var(--text); font-size: 14px; margin-bottom: 2px; }
+    .note { margin-top: 14px; padding: 12px 16px; background: rgba(76,175,80,.07); border: 1px solid rgba(76,175,80,.2); border-radius: 10px; font-size: 13px; color: var(--muted); }
+    .note strong { color: var(--accent2); }
+    .contact-box { display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; text-decoration: none; transition: border-color .2s, background .2s, transform .15s; }
+    .contact-box:hover { border-color: var(--accent); background: var(--card-hover); transform: translateY(-2px); }
+    .contact-box .ci { font-size: 26px; flex-shrink: 0; }
+    .contact-box .cl strong { display: block; font-size: 15px; color: var(--text); }
+    .contact-box .cl span { font-size: 13px; color: var(--accent2); }
+    .meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    footer { text-align: center; padding: 24px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
+    footer span { color: var(--accent); }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="card">
-      <h1>Mine Sweeper: Basic</h1>
-      <p class="small">Single page for App Store Connect Privacy Policy URL and Support URL.</p>
-      <div class="anchors small">
-        <a href="#privacy">Privacy Policy</a>
-        <a href="#support">Support</a>
-      </div>
-    </section>
-
+  <header>
+    <span class="header-icon">💣</span>
+    <h1>Mine Sweeper: <span>Basic</span></h1>
+    <p>Classic minesweeper — no fuss, no ads, just mines.</p>
+    <div class="badges">
+      <span class="badge badge-green">🔒 No Tracking</span>
+      <span class="badge badge-orange">📵 Offline Play</span>
+      <span class="badge badge-blue">🍎 iOS App</span>
+    </div>
+  </header>
+  <nav>
+    <a href="#privacy">🔐 Privacy Policy</a>
+    <a href="#support">🛠 Support</a>
+  </nav>
+  <main>
     <section id="privacy" class="card">
-      <h2>Privacy Policy</h2>
-      <p><strong>Last updated:</strong> March 7, 2026</p>
-      <p>Mine Sweeper: Basic can be played offline and does not require account sign-in.</p>
-      <p>The app stores gameplay preferences and local statistics (for example difficulty, sound setting, and game progress snapshot) only on your device.</p>
-      <p>The app does not include third-party ad SDKs, tracking SDKs, or external analytics SDKs in the current version.</p>
-      <p>If this changes in future releases, this page and App Store privacy answers will be updated before release.</p>
+      <div class="card-header">
+        <div class="card-icon icon-green">🔐</div>
+        <div>
+          <div class="section-tag">Legal</div>
+          <h2>Privacy Policy</h2>
+        </div>
+      </div>
+      <div class="meta"><span class="dot"></span> Last updated: March 7, 2026</div>
+      <ul class="privacy-list">
+        <li><span class="pi">📵</span><div><strong>No Internet Required</strong>Mine Sweeper: Basic works fully offline. No account sign-in or network access is needed to play.</div></li>
+        <li><span class="pi">📱</span><div><strong>On-Device Storage Only</strong>Gameplay preferences and local statistics (difficulty, sound setting, game progress snapshot) are stored exclusively on your device.</div></li>
+        <li><span class="pi">🚫</span><div><strong>No Third-Party SDKs</strong>The current version contains no ad SDKs, tracking SDKs, or external analytics SDKs.</div></li>
+        <li><span class="pi">🔒</span><div><strong>No Data Collected or Shared</strong>We do not collect, transmit, or share any personal information with any third party.</div></li>
+      </ul>
+      <div class="note"><strong>Future changes:</strong> If the privacy practices change in a future release, this page and the App Store privacy answers will be updated before that release goes live.</div>
     </section>
-
     <section id="support" class="card">
-      <h2>Support</h2>
-      <p>If you need help, found a bug, or have suggestions, contact us:</p>
-      <p><strong>Email:</strong> <a href="mailto:berkearastaman@gmail.com">berkearastaman@gmail.com</a></p>
-      <p class="small">Replace this email address with your real support address before publishing.</p>
+      <div class="card-header">
+        <div class="card-icon icon-orange">🛠</div>
+        <div>
+          <div class="section-tag">Help</div>
+          <h2>Support</h2>
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Found a bug, need help, or have a feature suggestion? Reach out anytime — we read every message.</p>
+      <a class="contact-box" href="mailto:berkearastaman@gmail.com">
+        <span class="ci">✉️</span>
+        <div class="cl"><strong>Email Support</strong><span>berkearastaman@gmail.com</span></div>
+      </a>
     </section>
   </main>
+  <footer>Made with <span>♥</span> · Mine Sweeper: Basic · &copy; 2026</footer>
 </body>
 </html>
-
